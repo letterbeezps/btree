@@ -108,6 +108,10 @@ func (n *node[T]) delete(key T) (T, bool) {
 	if len((*n.children)[i].items) < n.tree.min {
 		n.rebalance(i)
 	}
+	if len(n.items) == 0 && !n.leaf() {
+		n.items = (*n.children)[0].items
+		n.children = (*n.children)[0].children
+	}
 	return prev, true
 }
 
@@ -116,7 +120,7 @@ func (n *node[T]) deleteMax() (prev T, deleted bool) {
 	if n.leaf() {
 		prev = n.items[i]
 		n.items[i] = n.tree.empty
-		n.items = n.items[:i-1]
+		n.items = n.items[:i]
 		return prev, true
 	}
 	return (*n.children)[i+1].deleteMax()
