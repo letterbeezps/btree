@@ -108,10 +108,6 @@ func (n *node[T]) delete(key T) (T, bool) {
 	if len((*n.children)[i].items) < n.tree.min {
 		n.rebalance(i)
 	}
-	if len(n.items) == 0 && !n.leaf() {
-		n.items = (*n.children)[0].items
-		n.children = (*n.children)[0].children
-	}
 	return prev, true
 }
 
